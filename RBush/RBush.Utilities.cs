@@ -213,12 +213,19 @@ namespace RBush
 			return envelope;
 		}
 
-		private IEnumerable<T> GetAllChildren(Node n)
+		private List<T> GetAllChildren(Node n)
 		{
 			if (n.IsLeaf)
-				return n.Children.Cast<T>();
+				return n.Children.Cast<T>().ToList();
 			else
-				return n.Children.Cast<Node>().SelectMany(GetAllChildren);
+			{
+				List<T> childNodes = new List<T>();
+				foreach (var childNode in n.Children.Cast<Node>())
+				{
+					childNodes.AddRange(GetAllChildren(childNode));
+				}
+				return childNodes;
+			}
 		}
 
 	}

@@ -35,7 +35,7 @@ namespace RBush
 			this.Count = 0;
 		}
 
-		public IReadOnlyList<T> Search() => GetAllChildren(this.root).ToList();
+		public IReadOnlyList<T> Search() => GetAllChildren(this.root);
 
 		public IReadOnlyList<T> Search(in Envelope boundingBox)
 		{
