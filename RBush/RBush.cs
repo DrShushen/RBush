@@ -35,11 +35,20 @@ namespace RBush
 			this.Count = 0;
 		}
 
-		public IReadOnlyList<T> Search() => GetAllChildren(this.root);
+		// OLD.
+		public IReadOnlyList<T> Search_Old() => GetAllChildren_Old(this.root).ToList();
+		// NEW, generally more efficient.
+		public IReadOnlyList<T> Search() => GetAllChildren(this.root).ToList();
 
-		public IReadOnlyList<T> Search(in Envelope boundingBox)
+		// OLD.
+		public IReadOnlyList<T> Search_Old(in Envelope boundingBox)
 		{
 			return DoSearch(boundingBox).Select(x => (T)x.Peek()).ToList();
+		}
+		// NEW, generally more efficient.
+		public IReadOnlyList<T> Search(in Envelope boundingBox)
+		{
+			return DoSearchDirect(boundingBox);
 		}
 
 		public void Insert(T item)

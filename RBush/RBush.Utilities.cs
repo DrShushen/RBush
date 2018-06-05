@@ -43,6 +43,42 @@ namespace RBush
 
 			return intersections;
 		}
+
+		// Does not use Immutable Stack.
+		private List<T> DoSearchDirect(in Envelope boundingBox)
+		{
+			var node = this.root;
+			if (!node.Envelope.Intersects(boundingBox))
+				return new List<T>();
+			
+			List<T> intersections = new List<T>();
+			Queue<Node> queue = new Queue<Node>();
+			queue.Enqueue(node);
+
+			while (queue.Count != 0)
+			{
+				Node item = queue.Dequeue();
+				if (item.Envelope.Intersects(boundingBox))
+				{
+					if (item.IsLeaf)
+					{
+						foreach (T leafChildItem in item.Children.Cast<T>())
+						{
+							if (leafChildItem.Envelope.Intersects(boundingBox))
+							{
+								intersections.Add(leafChildItem);
+							}
+						}
+					}
+					else
+						foreach (var child in item.Children.Cast<Node>())
+							queue.Enqueue(child);
+				}
+			}
+
+			return intersections;
+		}
+
 		#endregion
 
 		#region Insert
@@ -213,20 +249,35 @@ namespace RBush
 			return envelope;
 		}
 
-		private List<T> GetAllChildren(Node n)
+		// OLD, uses recurrence.
+		private IEnumerable<T> GetAllChildren_Old(Node n)
 		{
 			if (n.IsLeaf)
-				return n.Children.Cast<T>().ToList();
+				return n.Children.Cast<T>();
 			else
-			{
-				List<T> childNodes = new List<T>();
-				foreach (var childNode in n.Children.Cast<Node>())
-				{
-					childNodes.AddRange(GetAllChildren(childNode));
-				}
-				return childNodes;
-			}
+				return n.Children.Cast<Node>().SelectMany(GetAllChildren_Old);
 		}
+
+		// NEW, uses a queue:
+		private IEnumerable<T> GetAllChildren(Node n)
+		{
+			List<T> allChildren = new List<T>();
+			Queue<Node> nodeQueue = new Queue<Node>();
+			nodeQueue.Enqueue(n);
+			while (nodeQueue.Count != 0)
+			{
+				Node item = nodeQueue.Dequeue();
+				if (item.IsLeaf)
+					allChildren.AddRange(item.Children.Cast<T>());
+				else
+					foreach (var child in item.Children.Cast<Node>())
+						nodeQueue.Enqueue(child);
+			}
+			return allChildren;
+		}
+
+
+
 
 	}
 }
