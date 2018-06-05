@@ -29,6 +29,9 @@ namespace RBush
 
 		public int Count { get; private set; }
 
+		// Returns the total envelope.
+		public Envelope Envelope => root.Envelope;
+
 		public void Clear()
 		{
 			this.root = new Node(new List<ISpatialData>(), 1);
