@@ -43,7 +43,7 @@ namespace RBush
 		public Envelope Enlargement(in Envelope other)
 		{
 			var clone = this.Clone();
-			clone.Extend(other);
+			clone = clone.Extend(other);  // There was an error in the original line: "clone.Extend(other)", as clone was *not* updated.
 			return clone;
 		}
 
