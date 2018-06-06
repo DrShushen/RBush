@@ -122,7 +122,7 @@ namespace RBush
 
 		#region SplitNode
 		private void SplitRoot(Node newNode) =>
-			this.root = new Node(new List<ISpatialData> { this.root, newNode }, this.root.Height + 1);
+			this.root = new Node(new List<ISpatialData> { this.root, newNode }, this.root.Height + 1);  // Bug triggered after this function call.
 
 		private Node SplitNode(Node node)
 		{
