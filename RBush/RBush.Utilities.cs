@@ -102,12 +102,20 @@ namespace RBush
 			}
 		}
 
+		private void CascadeResetEnvelopes(List<Node> path)
+		{
+			for (int i = (path.Count - 2)/* start at second to last node*/; i >= 0; i--)
+				path[i].ResetEnvelope();
+		}
+
 		private void Insert(ISpatialData data, int depth)
 		{
 			var path = FindCoveringArea(data.Envelope, depth);
 
 			var insertNode = path.Last();
 			insertNode.Add(data);
+			
+			CascadeResetEnvelopes(path);
 
 			while (--depth >= 0 &&
 				path[depth].Children.Count > maxEntries)
@@ -122,7 +130,7 @@ namespace RBush
 
 		#region SplitNode
 		private void SplitRoot(Node newNode) =>
-			this.root = new Node(new List<ISpatialData> { this.root, newNode }, this.root.Height + 1);  // Bug triggered after this function call.
+			this.root = new Node(new List<ISpatialData> { this.root, newNode }, this.root.Height + 1);
 
 		private Node SplitNode(Node node)
 		{
