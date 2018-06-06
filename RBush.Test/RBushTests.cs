@@ -220,5 +220,21 @@ namespace RBush.Test
 			Assert.Equal(0, tree.Count);
 			Assert.Equal(0, tree.root.Children.Count);
 		}
+
+		[Fact]
+		public void TreeEnvelopeTest()
+		{
+			var tree = new RBush<Point>(maxEntries: 4);
+			tree.BulkLoad(points);
+
+			Envelope envelope =
+				new Envelope(
+					points.Min(p => p.Envelope.MinX),
+					points.Min(p => p.Envelope.MinY),
+					points.Max(p => p.Envelope.MaxX),
+					points.Max(p => p.Envelope.MaxY));
+
+			Assert.Equal(envelope, tree.Envelope);
+		}
 	}
 }
