@@ -116,15 +116,16 @@ namespace RBush
 				.Where(c => object.Equals(item, c.Peek())))
 			{
 				var path = c.Pop();
+
 				(path.Peek() as Node).Children.Remove(item);
+				this.Count--;
+
 				while (!path.IsEmpty)
 				{
 					(path.Peek() as Node).ResetEnvelope();
 					path = path.Pop();
 				}
 			}
-
-			this.Count--;
 		}
 	}
 }
