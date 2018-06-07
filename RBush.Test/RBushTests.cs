@@ -321,5 +321,23 @@ namespace RBush.Test
 
 			Assert.Equal(extraPointsSet.OrderBy(x => x), tree.Search(extraPointsSetEnvelope).OrderBy(x => x));
 		}
+
+		[Fact]
+		public void AdditionalRemoveTest()
+		{
+			var tree = new RBush<Point>();
+			int numDelete = 18;
+
+			foreach (var p in points)
+				tree.Insert(p);
+
+			var deleteSet = points.Take(numDelete);
+
+			foreach (var p in deleteSet)
+				tree.Delete(p);
+
+			Assert.Equal(points.Length - numDelete, tree.Count);
+			Assert.Equal(points.TakeLast(points.Length - numDelete).OrderBy(x => x), tree.Search().OrderBy(x => x));
+		}
 	}
 }
