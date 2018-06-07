@@ -123,6 +123,8 @@ namespace RBush
 					path = path.Pop();
 				}
 			}
+
+			this.Count--;
 		}
 	}
 }
