@@ -78,5 +78,23 @@ namespace RBush
 				minY: double.PositiveInfinity,
 				maxX: double.NegativeInfinity,
 				maxY: double.NegativeInfinity);
+
+		public override bool Equals(Object obj)
+		{
+			return obj is Envelope && this == (Envelope)obj;
+		}
+		public override int GetHashCode()
+		{
+			return (MinX.GetHashCode() ^ MinY.GetHashCode() ^ MaxX.GetHashCode() ^ MaxY.GetHashCode());
+		}
+		public static bool operator ==(Envelope x, Envelope y)
+		{
+			return (x.MinX == y.MinX && x.MinY == y.MinY && x.MaxX == y.MaxX && x.MaxY == y.MaxY);
+		}
+		public static bool operator !=(Envelope x, Envelope y)
+		{
+			return !(x == y);
+		}
+
 	}
 }

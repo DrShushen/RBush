@@ -339,5 +339,16 @@ namespace RBush.Test
 			Assert.Equal(points.Length - numDelete, tree.Count);
 			Assert.Equal(points.TakeLast(points.Length - numDelete).OrderBy(x => x), tree.Search().OrderBy(x => x));
 		}
+
+		[Fact]
+		public void EnvelopeEqualityTest()
+		{
+			Envelope envelope1 = new Envelope(12.0, -40.5, 13.7, 66.1);
+			Envelope envelope2 = new Envelope(-71.4, 1.6, -6.0, 66.1);
+			Envelope envelope3 = new Envelope(12.0, -40.5, 13.7, 66.1);
+
+			Assert.True(envelope1 == envelope3);
+			Assert.False(envelope1 == envelope2);
+		}
 	}
 }
