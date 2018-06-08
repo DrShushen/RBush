@@ -352,7 +352,7 @@ namespace RBush.Test
 		}
 
 		[Fact]
-		public void BulkLoadDeleteBulkLoadTest()
+		public void BulkLoad_DeleteMany_BulkLoad_Test()
 		{
 			var pts = GetPoints(20);
 			var ptsDelete = pts.Take(18);
@@ -368,12 +368,47 @@ namespace RBush.Test
 			Assert.Equal(pts.Count, tree.Search().Count);
 			Assert.Equal(pts.OrderBy(x => x).ToList(), tree.Search().OrderBy(x => x).ToList());
 		}
-
 		[Fact]
-		public void InsertDeleteInsertTest()
+		public void BulkLoad_DeleteFew_BulkLoad_Test()
+		{
+			var pts = GetPoints(20);
+			var ptsDelete = pts.Take(4);
+			var tree = new RBush<Point>(maxEntries: 4);
+
+			tree.BulkLoad(pts);
+
+			foreach (var item in ptsDelete)
+				tree.Delete(item);
+
+			tree.BulkLoad(ptsDelete);
+
+			Assert.Equal(pts.Count, tree.Search().Count);
+			Assert.Equal(pts.OrderBy(x => x).ToList(), tree.Search().OrderBy(x => x).ToList());
+		}
+		[Fact]
+		public void Insert_DeleteMany_Insert_Test()
 		{
 			var pts = GetPoints(20);
 			var ptsDelete = pts.Take(18);
+			var tree = new RBush<Point>(maxEntries: 4);
+
+			foreach (var item in pts)
+				tree.Insert(item);
+
+			foreach (var item in ptsDelete)
+				tree.Delete(item);
+
+			foreach (var item in ptsDelete)
+				tree.Insert(item);
+
+			Assert.Equal(pts.Count, tree.Search().Count);
+			Assert.Equal(pts.OrderBy(x => x).ToList(), tree.Search().OrderBy(x => x).ToList());
+		}
+		[Fact]
+		public void Insert_DeleteFew_Insert_Test()
+		{
+			var pts = GetPoints(20);
+			var ptsDelete = pts.Take(4);
 			var tree = new RBush<Point>(maxEntries: 4);
 
 			foreach (var item in pts)

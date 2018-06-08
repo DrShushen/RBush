@@ -90,7 +90,7 @@ namespace RBush
 				if (this.root.Children.Count + dataRoot.Children.Count <= this.maxEntries)
 				{
 					foreach (var isd in dataRoot.Children)
-						this.root.Add(dataRoot);
+						this.root.Add(isd);
 				}
 				else
 					SplitRoot(dataRoot);
@@ -117,12 +117,14 @@ namespace RBush
 			{
 				var path = c.Pop();
 
-				bool removedSuccessfully = (path.Peek() as Node).Children.Remove(item);
-				if (removedSuccessfully) this.Count--;
+				Node currentNode = path.Peek() as Node;
+
+				bool success = currentNode.Children.Remove(item);
+				if (success) this.Count--;
 
 				while (!path.IsEmpty)
 				{
-					(path.Peek() as Node).ResetEnvelope();
+					currentNode.ResetEnvelope();
 					path = path.Pop();
 				}
 			}
