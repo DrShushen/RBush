@@ -350,5 +350,43 @@ namespace RBush.Test
 			Assert.True(envelope1 == envelope3);
 			Assert.False(envelope1 == envelope2);
 		}
+
+		[Fact]
+		public void BulkLoadDeleteBulkLoadTest()
+		{
+			var pts = GetPoints(20);
+			var ptsDelete = pts.Take(18);
+			var tree = new RBush<Point>(maxEntries: 4);
+			
+			tree.BulkLoad(pts);
+
+			foreach (var item in ptsDelete)
+				tree.Delete(item);
+			
+			tree.BulkLoad(ptsDelete);
+
+			Assert.Equal(pts.Count, tree.Search().Count);
+			Assert.Equal(pts.OrderBy(x => x).ToList(), tree.Search().OrderBy(x => x).ToList());
+		}
+
+		[Fact]
+		public void InsertDeleteInsertTest()
+		{
+			var pts = GetPoints(20);
+			var ptsDelete = pts.Take(18);
+			var tree = new RBush<Point>(maxEntries: 4);
+
+			foreach (var item in pts)
+				tree.Insert(item);
+
+			foreach (var item in ptsDelete)
+				tree.Delete(item);
+
+			foreach (var item in ptsDelete)
+				tree.Insert(item);
+
+			Assert.Equal(pts.Count, tree.Search().Count);
+			Assert.Equal(pts.OrderBy(x => x).ToList(), tree.Search().OrderBy(x => x).ToList());
+		}
 	}
 }
