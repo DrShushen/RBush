@@ -117,8 +117,8 @@ namespace RBush
 			{
 				var path = c.Pop();
 
-				(path.Peek() as Node).Children.Remove(item);
-				this.Count--;
+				bool removedSuccessfully = (path.Peek() as Node).Children.Remove(item);
+				if (removedSuccessfully) this.Count--;
 
 				while (!path.IsEmpty)
 				{
