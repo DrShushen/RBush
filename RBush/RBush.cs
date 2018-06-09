@@ -108,8 +108,9 @@ namespace RBush
 			}
 		}
 
-		public void Delete(T item)
+		public bool Delete(T item)
 		{
+			bool success = false;
 			var candidates = DoSearch(item.Envelope);
 
 			foreach (var c in candidates
@@ -119,7 +120,7 @@ namespace RBush
 
 				Node currentNode = path.Peek() as Node;
 
-				bool success = currentNode.Children.Remove(item);
+				success = currentNode.Children.Remove(item);
 				if (success) this.Count--;
 
 				while (!path.IsEmpty)
@@ -128,6 +129,8 @@ namespace RBush
 					path = path.Pop();
 				}
 			}
+
+			return success;
 		}
 	}
 }

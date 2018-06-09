@@ -205,9 +205,13 @@ namespace RBush.Test
 		public void NonExistentItemCanBeDeleted()
 		{
 			var tree = new RBush<Point>(maxEntries: 4);
+
 			tree.BulkLoad(points);
+			int countBefore = points.Length; 
 
 			tree.Delete(new Point(13, 13, 13, 13));
+
+			Assert.Equal(countBefore, tree.Count);
 		}
 
 		[Fact]
@@ -218,7 +222,7 @@ namespace RBush.Test
 			tree.Clear();
 
 			Assert.Equal(0, tree.Count);
-			Assert.Equal(0, tree.root.Children.Count);
+			Assert.Empty(tree.root.Children);
 		}
 
 		[Fact]
@@ -553,6 +557,37 @@ namespace RBush.Test
 			Assert.Equal(
 				expected: tree.Search().Where(p => p.Envelope.Intersects(envelope)).Count(),
 				actual: tree.Search(envelope).Count);
+		}
+		
+		[Fact]
+		public void DeleteAndSearchTest()
+		{
+			var tree = new RBush<Point>(maxEntries: 4);
+			tree.BulkLoad(points);
+
+			var len = points.Length;
+
+			// Delete an existent point.
+			bool resultExistent = tree.Delete(points[0]);
+			var shouldFindPointsExistent = points
+				.Skip(1)
+				.OrderBy(x => x)
+				.ToList();
+			var foundPointsExistent = tree.Search()
+				.OrderBy(x => x)
+				.ToList();
+
+			// Try to delete a non-existent point.
+			bool resultNonExistent = tree.Delete(new Point(1245, 1233, 1245, 1233));
+			var shouldFindPointsNonExistent = shouldFindPointsExistent;
+			var foundPointsNonExistent = tree.Search()
+				.OrderBy(x => x)
+				.ToList();
+
+			Assert.True(resultExistent);
+			Assert.Equal(shouldFindPointsExistent, foundPointsExistent);
+			Assert.False(resultNonExistent);
+			Assert.Equal(shouldFindPointsNonExistent, foundPointsNonExistent);
 		}
 	}
 }
