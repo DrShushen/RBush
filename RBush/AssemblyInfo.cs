@@ -6,6 +6,8 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
+[assembly: InternalsVisibleTo("RBush.SpeedTest")]
+
 namespace RBush
 {
 	internal class AssemblyInfo

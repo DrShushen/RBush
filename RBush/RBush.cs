@@ -39,12 +39,12 @@ namespace RBush
 		}
 
 		// OLD.
-		public IReadOnlyList<T> Search_Old() => GetAllChildren_Old(this.root).ToList();
+		internal IReadOnlyList<T> Search_Old() => GetAllChildren_Old(this.root).ToList();
 		// NEW, generally more efficient.
 		public IReadOnlyList<T> Search() => GetAllChildren(this.root).ToList();
 
 		// OLD.
-		public IReadOnlyList<T> Search_Old(in Envelope boundingBox)
+		internal IReadOnlyList<T> Search_Old(in Envelope boundingBox)
 		{
 			return DoSearch(boundingBox).Select(x => (T)x.Peek()).ToList();
 		}
