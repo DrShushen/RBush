@@ -113,7 +113,7 @@ namespace RBush.SpeedTest
 			tester.RunTestGroup(32, 10000);
 			tester.RunTestGroup(32, 100000);
 			tester.RunTestGroup(32, 500000);
-			//tester.RunTestGroup(32, 1000000);  // Slowest.
+			tester.RunTestGroup(32, 1000000);  // Slowest.
 
 		}
 	}
