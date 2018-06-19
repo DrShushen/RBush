@@ -5,6 +5,7 @@ using System.Text;
 
 namespace RBush
 {
+	[Serializable]
 	public partial class RBush<T> : ISpatialDatabase<T>, ISpatialIndex<T> where T : ISpatialData
 	{
 		private const int DefaultMaxEntries = 9;

@@ -4,7 +4,6 @@ using System.Linq;
 
 namespace RBush
 {
-	[Serializable]
 	public partial class RBush<T>
 	{
 		[Serializable]
