@@ -2,6 +2,7 @@
 
 namespace RBush
 {
+	[Serializable]
 	public readonly struct Envelope
 	{
 		public double MinX { get; }

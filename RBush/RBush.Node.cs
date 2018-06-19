@@ -4,8 +4,10 @@ using System.Linq;
 
 namespace RBush
 {
+	[Serializable]
 	public partial class RBush<T>
 	{
+		[Serializable]
 		internal class Node : ISpatialData
 		{
 			private Envelope _envelope;
